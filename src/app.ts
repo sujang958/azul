@@ -1,5 +1,6 @@
 import { Client } from "discord.js"
-import { doesContainHangul } from "./utils"
+import { doesContainHangul, hangulToHepburnJapanese } from "./utils"
+import got from "got"
 
 const client = new Client({ intents: 130815 })
 
@@ -12,7 +13,20 @@ client.on("messageCreate", async (message) => {
 
   const query = message.content.substring(1).replace(/ /gi, "")
 
-  query.split("").map(v => doesContainHangul(v) ? () : "v")
+  const character = query
+    .split("")
+    .map((v) => (doesContainHangul(v) ? hangulToHepburnJapanese(v) : v))
+    .join("")
+
+  const data = await got
+    .get(
+      `https://api.ennead.cc/buruaka/character/${encodeURIComponent(
+        character,
+      )}`,
+    )
+    .json()
+
+  console.log(data)
 })
 
 client.login(Bun.env.BOT_TOKEN)

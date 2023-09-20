@@ -19,6 +19,53 @@ const f = [
   "ㅍ",
   "ㅎ",
 ]
+
+const F_HASH: Record<string, string> = {
+  ㄱ: "g",
+  ㄲ: "k",
+  ㄴ: "n",
+  ㄷ: "d",
+  ㄸ: "t",
+  ㄹ: "r",
+  ㅁ: "m",
+  ㅂ: "b",
+  ㅃ: "p",
+  ㅅ: "s",
+  ㅆ: "s",
+  ㅇ: "",
+  ㅈ: "j",
+  ㅉ: "ch",
+  ㅊ: "ch",
+  ㅋ: "k",
+  ㅌ: "t",
+  ㅍ: "p",
+  ㅎ: "h",
+}
+
+const S_HASH: Record<string, string> = {
+  ㅏ: "a",
+  ㅐ: "ai",
+  ㅑ: "ya",
+  ㅒ: "yai",
+  ㅓ: "o",
+  ㅔ: "e",
+  ㅕ: "yo",
+  ㅖ: "ie",
+  ㅗ: "o",
+  ㅘ: "wa",
+  ㅙ: "ue",
+  ㅚ: "ue",
+  ㅛ: "yo",
+  ㅜ: "u",
+  ㅝ: "wo",
+  ㅞ: "ue",
+  ㅟ: "ui",
+  ㅠ: "yu",
+  ㅡ: "u",
+  ㅢ: "ui",
+  ㅣ: "i",
+}
+
 const s = [
   "ㅏ",
   "ㅐ",
@@ -42,6 +89,7 @@ const s = [
   "ㅢ",
   "ㅣ",
 ]
+
 const t = [
   "",
   "ㄱ",
@@ -94,3 +142,18 @@ const hangulRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/gi
 
 export const doesContainHangul = (text: string) =>
   (text.match(hangulRegex) ?? []).length > 0
+
+export const hangulToHepburnJapanese = (letter: string) => {
+  const components = getConstantVowel(letter)
+
+  let hepburn = ""
+
+  hepburn = F_HASH[components.f]
+  hepburn = S_HASH[components.s]
+
+  if (hepburn.includes("y") && hepburn.includes("j"))
+    hepburn = hepburn.replace("y", "")
+  if (components.t) hepburn += "n"
+
+  return letter
+}

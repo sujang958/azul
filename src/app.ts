@@ -24,12 +24,16 @@ client.on("messageCreate", async (message) => {
   )
   const data: Student = await res.json()
 
-  console.log(data)
-
   const embed = new EmbedBuilder()
     .setColor("#00d2fe")
     .setTitle(data.character.name)
     .setThumbnail(data.image.lobby)
+    .addFields([
+      { name: "Age", value: data.info.age, inline: true },
+      { name: "Date of Birth", value: data.info.birthDate, inline: true },
+      { name: "Height", value: data.info.height },
+      { name: "School", value: data.info.school, inline: true },
+    ])
 
   message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } })
 })

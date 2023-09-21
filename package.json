@@ -1,15 +1,24 @@
 {
   "name": "azul",
-  "module": "./src/app.ts",
+  "version": "1.0.0",
   "type": "module",
-  "devDependencies": {
-    "bun-types": "latest"
+  "repository": "https://github.com/sujang958/azul.git",
+  "author": "sujang958 <sujangdev@gmail.com>",
+  "scripts": {
+    "dev": "ts-node-esm src/app.ts"
   },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/got": "^9.6.12",
+    "@types/node": "^20.6.3",
+    "prettier": "^3.0.3",
+    "ts-node": "^10.9.1",
+    "tsx": "^3.12.10",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
     "discord.js": "^14.13.0",
-    "got": "^13.0.0"
+    "dotenv": "^16.3.1",
+    "hangul-js": "^0.2.6"
   }
 }

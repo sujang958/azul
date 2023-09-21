@@ -121,39 +121,19 @@ const t = [
   "ㅎ",
 ]
 
-export const getConstantVowel = (kor: string) => {
-  const ga = 44032
-  let uni = kor.charCodeAt(0)
-
-  uni = uni - ga
-
-  let fn = uni / 588
-  let sn = (uni - fn * 588) / 28
-  let tn = uni % 28
-
-  return {
-    f: f[fn],
-    s: s[sn],
-    t: t[tn],
-  }
-}
-
 const hangulRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/gi
 
 export const doesContainHangul = (text: string) =>
   (text.match(hangulRegex) ?? []).length > 0
 
-export const hangulToHepburnJapanese = (letter: string) => {
-  const components = getConstantVowel(letter)
+export const hangulToHepburnJapanese = (letters: string[]) => {
+  const [firstLetter, secondLetter, thirdLetter] = letters
 
   let hepburn = ""
 
-  hepburn = F_HASH[components.f]
-  hepburn = S_HASH[components.s]
+  if (firstLetter !== "ㅇ") hepburn += F_HASH[firstLetter] ?? ""
+  if (secondLetter) hepburn += S_HASH[secondLetter] ?? ""
+  if (thirdLetter) hepburn += "n" // TODO: 만약 촉음이 들어간 캐릭터가 생기면?
 
-  if (hepburn.includes("y") && hepburn.includes("j"))
-    hepburn = hepburn.replace("y", "")
-  if (components.t) hepburn += "n"
-
-  return letter
+  return hepburn
 }

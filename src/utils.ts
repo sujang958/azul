@@ -132,7 +132,10 @@ export const hangulToHepburnJapanese = (letters: string[]) => {
   let hepburn = ""
 
   if (firstLetter !== "ㅇ") hepburn += F_HASH[firstLetter] ?? ""
-  if (secondLetter) hepburn += S_HASH[secondLetter] ?? ""
+  if (secondLetter)
+    hepburn +=
+      (hepburn == "s" && secondLetter == "ㅣ" ? "h" : "") +
+        S_HASH[secondLetter] ?? ""
   if (thirdLetter) hepburn += "n" // TODO: 만약 촉음이 들어간 캐릭터가 생기면?
 
   return hepburn

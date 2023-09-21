@@ -1,9 +1,7 @@
-import "dotenv/config"
-
-import { Client } from "discord.js"
+import { Client, EmbedBuilder } from "discord.js"
 import { doesContainHangul, hangulToHepburnJapanese } from "./utils.js"
-import got from "got"
 import hangul from "hangul-js"
+import { Character, Student } from "./types.js"
 
 const client = new Client({ intents: 130815 })
 
@@ -21,13 +19,19 @@ client.on("messageCreate", async (message) => {
     .map((v) => hangulToHepburnJapanese(v))
     .join("")
 
-  console.log(character)
-
-  const data = await got.get(
+  const res = await fetch(
     `https://api.ennead.cc/buruaka/character/${encodeURIComponent(character)}`,
   )
+  const data: Student = await res.json()
 
   console.log(data)
+
+  const embed = new EmbedBuilder()
+    .setColor("#00d2fe")
+    .setTitle(data.character.name)
+    .setThumbnail(data.image.lobby)
+
+  message.reply({ embeds: [embed], allowedMentions: { repliedUser: false } })
 })
 
 client.login(process.env.BOT_TOKEN)

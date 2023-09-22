@@ -1,7 +1,7 @@
 import { Client, EmbedBuilder } from "discord.js"
-import { doesContainHangul, hangulToHepburnJapanese } from "./utils.js"
+import { hangulToHepburnJapanese } from "./utils.js"
 import hangul from "hangul-js"
-import { Character, Student } from "./types.js"
+import { Student } from "./types.js"
 
 const client = new Client({ intents: 130815 })
 
